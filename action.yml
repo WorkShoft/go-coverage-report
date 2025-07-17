@@ -54,6 +54,13 @@ inputs:
       You can aso just pass the name of the Workflow file directly (e.g. "my-workflow.yml").
     default: ${{ github.workflow_ref }}
     required: false
+    
+  target-branch:
+    description: |
+      The target branch of the pull request. This is used to determine the baseline coverage.
+      If not set, the default value is the base branch of the pull request.
+    required: false
+    default: ${{ github.base_ref }}
 
 outputs:
   coverage_report:
@@ -91,7 +98,7 @@ runs:
         GH_REPO: ${{ github.repository }}
         GH_TOKEN: ${{ github.token }}
         GITHUB_BASELINE_WORKFLOW_REF: ${{ inputs.github-baseline-workflow-ref }}
-        TARGET_BRANCH: ${{ github.base_ref }}
+        TARGET_BRANCH: ${{ inputs.target-branch }}
         CHANGED_FILES_PATH: .github/outputs/all_modified_files.json
         COVERAGE_ARTIFACT_NAME: ${{ inputs.coverage-artifact-name }}
         COVERAGE_FILE_NAME: ${{ inputs.coverage-file-name }}
